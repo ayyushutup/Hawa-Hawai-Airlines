@@ -39,10 +39,14 @@ const AdminDashboard = ({ embedded = false }) => {
 
             const headers = { 'Authorization': `Bearer ${token}` };
 
+            import { API_BASE_URL } from '../services/api';
+
+            // ...
+
             const [statsRes, flightsRes, bookingsRes] = await Promise.all([
-                fetch('/api/admin/stats', { headers }),
-                fetch('/api/admin/flights', { headers }),
-                fetch('/api/admin/bookings/recent', { headers })
+                fetch(`${API_BASE_URL}/admin/stats`, { headers }),
+                fetch(`${API_BASE_URL}/admin/flights`, { headers }),
+                fetch(`${API_BASE_URL}/admin/bookings/recent`, { headers })
             ]);
 
             if (statsRes.status === 401 || flightsRes.status === 401) {
