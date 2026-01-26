@@ -48,8 +48,8 @@ export function Login() {
     };
 
     const fillDemoAdmin = () => {
-        setEmail('admin@hawa-hawai.com');
-        setPassword('admin123');
+        setEmail('admin@hawahawai.com');
+        setPassword('admin');
         setRememberMe(true);
     };
 
