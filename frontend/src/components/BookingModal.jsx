@@ -45,7 +45,7 @@ export default function BookingModal({ flight, onClose }) {
     ]);
 
     const [extras, setExtras] = useState({ baggage: 0, insurance: false, priority: false });
-    const [paymentMethod, setPaymentMethod] = useState('Credit Card');
+    const [paymentMethod] = useState('Credit Card');
     const [bookingData, setBookingData] = useState(null);
 
     // Payment Form
@@ -171,7 +171,7 @@ export default function BookingModal({ flight, onClose }) {
                 setAppliedPromo(null);
                 setPromoError(res.error || 'Invalid Code');
             }
-        } catch (e) {
+        } catch {
             setPromoError('Failed to validate code');
         }
     };
@@ -325,7 +325,7 @@ export default function BookingModal({ flight, onClose }) {
                         </button>
                     </div>
                 );
-            case 2: // Seats (Looping)
+            case 2: { // Seats (Looping)
                 const pSeat = passengers[currentPassengerIndex];
                 return (
                     <div className="animate-fade-in">
@@ -361,7 +361,8 @@ export default function BookingModal({ flight, onClose }) {
                         </div>
                     </div>
                 );
-            case 3: // Meals (Looping)
+            }
+            case 3: { // Meals (Looping)
                 const pMeal = passengers[currentPassengerIndex];
                 return (
                     <div className="animate-fade-in">
@@ -394,6 +395,7 @@ export default function BookingModal({ flight, onClose }) {
                         </div>
                     </div>
                 );
+            }
             case 4: // Extras (Global for now)
                 return (
                     <div className="animate-fade-in">
@@ -404,14 +406,14 @@ export default function BookingModal({ flight, onClose }) {
                         />
                     </div>
                 );
-            case 5: // Review & Pay (Enhanced)
+            case 5: { // Review & Pay (Enhanced)
                 // Hawa Miles Calculation (10% of total price as points)
                 const miles = Math.floor(pricingDetails.total / 10);
 
                 // Donut Chart Data
                 const total = pricingDetails.total;
                 const basePct = (pricingDetails.basePrice / total) * 100;
-                const taxPct = (pricingDetails.taxes / total) * 100;
+                // taxPct removed as it was unused
                 const extraPct = ((pricingDetails.extrasPrice + pricingDetails.mealPrice) / total) * 100;
                 // Simplified for visual
 
@@ -499,6 +501,7 @@ export default function BookingModal({ flight, onClose }) {
                         </div>
                     </div>
                 );
+            }
             case 6: // Payment Form (Same as before)
                 return (
                     <div className="animate-fade-in space-y-6">

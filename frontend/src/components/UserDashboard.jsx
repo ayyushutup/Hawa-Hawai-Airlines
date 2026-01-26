@@ -74,7 +74,7 @@ const UserDashboard = () => {
             } else {
                 alert(data.error || 'Failed to cancel booking');
             }
-        } catch (err) {
+        } catch {
             alert('Failed to cancel booking. Please try again.');
         } finally {
             setCancellingRef(null);

@@ -28,7 +28,7 @@ const AdminDashboard = ({ embedded = false }) => {
 
     const navigate = useNavigate();
 
-    const fetchData = async () => {
+    const fetchData = React.useCallback(async () => {
         try {
             const token = JSON.parse(localStorage.getItem('user'))?.access_token;
             if (!token) {
@@ -61,14 +61,14 @@ const AdminDashboard = ({ embedded = false }) => {
         } finally {
             setLoading(false);
         }
-    };
+    }, [navigate]);
 
     useEffect(() => {
         fetchData();
         // Poll for updates every 10 seconds
         const interval = setInterval(fetchData, 10000);
         return () => clearInterval(interval);
-    }, []);
+    }, [fetchData]);
 
     const handleStatusUpdate = async (flightId, newStatus) => {
         try {

@@ -21,7 +21,7 @@ export default function Home() {
         }, 4000);
 
         return () => clearInterval(interval);
-    }, []);
+    }, [images.length]);
 
     return (
         <div className="bg-white">

@@ -1,17 +1,12 @@
-import { createContext, useState, useEffect } from 'react';
+/* eslint-disable react-refresh/only-export-components */
+import { createContext, useState } from 'react';
 import { authService } from '../services/auth';
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-    const [user, setUser] = useState(null);
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        const currentUser = authService.getCurrentUser();
-        setUser(currentUser);
-        setLoading(false);
-    }, []);
+    const [user, setUser] = useState(() => authService.getCurrentUser());
+    const [loading] = useState(false);
 
     const login = async (email, password) => {
         const data = await authService.login(email, password);
