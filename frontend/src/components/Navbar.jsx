@@ -172,6 +172,20 @@ export default function Navbar() {
                             <MobileNavLink to="/" text="Book Flights" icon={<Plane />} onClick={closeMobileMenu} />
                             <MobileNavLink to="/tracker" text="Flight Tracker" icon={<Globe />} onClick={closeMobileMenu} />
 
+                            <div className="my-2 border-t border-white/10" />
+                            <MobileNavHeader text="Experience" />
+                            <MobileNavLink to="/experience/cabin" text="Cabin Classes" icon={<Plane className="w-4 h-4" />} onClick={closeMobileMenu} />
+                            <MobileNavLink to="/experience/dining" text="Dining" icon={<User className="w-4 h-4" />} onClick={closeMobileMenu} />
+                            <MobileNavLink to="/experience/lounge" text="Lounges" icon={<User className="w-4 h-4" />} onClick={closeMobileMenu} />
+
+                            <div className="my-2 border-t border-white/10" />
+                            <MobileNavHeader text="Privilege Club" />
+                            <MobileNavLink to="/privilege-club" text="Club Benefits" icon={<User className="w-4 h-4" />} onClick={closeMobileMenu} />
+                            <MobileNavLink to="/signup" text="Join Now" icon={<User className="w-4 h-4" />} onClick={closeMobileMenu} />
+
+                            <div className="my-2 border-t border-white/10" />
+                            <MobileNavLink to="/how-its-made" text="How it's Made" icon={<Code />} onClick={closeMobileMenu} />
+
                             {user ? (
                                 <>
                                     <MobileNavLink to="/dashboard" text="My Bookings" icon={<User />} onClick={closeMobileMenu} />
@@ -211,6 +225,13 @@ export default function Navbar() {
         </nav>
     );
 }
+
+// Mobile Nav Header
+const MobileNavHeader = ({ text }) => (
+    <div className="px-4 py-2 text-xs font-bold text-gray-500 uppercase tracking-widest">
+        {text}
+    </div>
+);
 
 // Mobile Nav Link
 const MobileNavLink = ({ to, text, icon, onClick }) => (
