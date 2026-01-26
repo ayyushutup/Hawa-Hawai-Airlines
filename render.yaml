@@ -19,6 +19,8 @@ services:
         value: false
       - key: SECRET_KEY
         generateValue: true
+      - key: CORS_ORIGINS
+        value: "*"
 
 databases:
   # PostgreSQL Database
