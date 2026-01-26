@@ -6,7 +6,7 @@ services:
     region: singapore
     plan: free
     buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn run:app
+    startCommand: flask db upgrade && python seed.py && gunicorn run:app
     rootDir: backend
     envVars:
       - key: PYTHON_VERSION
