@@ -8,7 +8,7 @@ const MEAL_OPTIONS = [
         price: 500,
         cuisine: 'Indian',
         calories: 650,
-        image: 'https://images.unsplash.com/photo-1631452180519-c014fe946dc7?q=80&w=500&auto=format&fit=crop',
+        image: '/assets/paneer_butter_masala.jpg',
         desc: 'Rich creamy tomato curry with soft paneer cubes, served with basmati rice and naan.'
     },
     {

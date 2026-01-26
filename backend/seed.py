@@ -60,6 +60,16 @@ def seed_data():
         db.session.add_all(all_airports)
         db.session.commit()
 
+        # Add Admin User
+        print("Creating admin user...")
+        from app.models.user import User
+        # Check if admin exists (though we cleared data, safer to check)
+        if not User.query.filter_by(username='admin').first():
+            admin = User(username='admin', email='admin@hawahawai.com', is_admin=True)
+            admin.set_password('admin')
+            db.session.add(admin)
+            db.session.commit()
+
         # Add Flights
         print("Generating flights...")
         flights = []

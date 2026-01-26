@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { MapContainer, TileLayer, Polyline, ZoomControl } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
-import SmoothPlaneMarker from './SmoothPlaneMarker';
+import { Marker } from 'react-leaflet';
 import { getGeodesicPath } from '../utils/geodesic';
 
 // Fix for default marker icons in React Leaflet
@@ -62,14 +62,34 @@ const FlightMap = ({ flights, selectedFlightId, onFlightSelect }) => {
                 />
             )}
 
-            {flights.map(flight => (
-                <SmoothPlaneMarker
-                    key={flight.id}
-                    flight={flight}
-                    isSelected={selectedFlightId === flight.id}
-                    onClick={onFlightSelect}
-                />
-            ))}
+            {flights.map(flight => {
+                // Create icon inline or memoize outside
+                const color = flight.is_my_flight ? '#D4AF37' : '#2E004B';
+                const size = flight.is_my_flight ? 40 : 28;
+                const svg = `
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="${color}" width="${size}" height="${size}" style="transform: rotate(${flight.heading}deg); filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.3));">
+                        <path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/>
+                    </svg>
+                `;
+                const icon = L.divIcon({
+                    html: svg,
+                    className: 'bg-transparent',
+                    iconSize: [size, size],
+                    iconAnchor: [size / 2, size / 2],
+                });
+
+                return (
+                    <Marker
+                        key={flight.id}
+                        position={[flight.latitude, flight.longitude]}
+                        icon={icon}
+                        zIndexOffset={flight.is_my_flight ? 1000 : 1}
+                        eventHandlers={{
+                            click: () => onFlightSelect(flight),
+                        }}
+                    />
+                );
+            })}
         </MapContainer>
     );
 };

@@ -121,10 +121,14 @@ def get_active_flights():
 
             # Dynamic Status Message
             import random
+            import zlib
             
-            # Simulate Altitude and Speed
-            cruising_altitude = 35000 + (hash(flight.id) % 3000) # Randomize slightly per flight
-            cruising_speed = 500 + (hash(flight.id) % 100) # Knots
+            # Simulate Altitude and Speed using deterministic hash
+            # Python's hash() is randomized per process, so we use zlib.adler32 for stability across restarts
+            flight_seed = zlib.adler32(str(flight.id).encode())
+            
+            cruising_altitude = 35000 + (flight_seed % 3000) # Randomize slightly per flight
+            cruising_speed = 500 + (flight_seed % 100) # Knots
 
             if progress < 0.1: # Climb
                 altitude = (progress / 0.1) * cruising_altitude
