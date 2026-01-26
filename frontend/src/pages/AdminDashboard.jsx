@@ -39,9 +39,7 @@ const AdminDashboard = ({ embedded = false }) => {
 
             const headers = { 'Authorization': `Bearer ${token}` };
 
-            import { API_BASE_URL } from '../services/api';
-
-            // ...
+            const API_BASE_URL = import.meta.env.VITE_API_URL || '/api';
 
             const [statsRes, flightsRes, bookingsRes] = await Promise.all([
                 fetch(`${API_BASE_URL}/admin/stats`, { headers }),
