@@ -257,44 +257,51 @@ export default function SearchResults() {
                                                 : 'bg-white border-secondary/10 hover:border-accent/30 hover:shadow-md focus:ring-2 focus:ring-accent focus:outline-none'
                                                 }`}
                                         >
-                                            <div className="flex items-center justify-between">
-                                                <div className="flex items-center gap-6">
-                                                    <div className={`p-4 rounded-xl ${isSelected ? 'bg-accent/10 text-accent' : 'bg-primary/5 text-primary'}`}>
-                                                        <Plane className="w-8 h-8" aria-hidden="true" />
+                                            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                                                <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6 w-full md:w-auto">
+                                                    <div className={`p-3 sm:p-4 rounded-xl ${isSelected ? 'bg-accent/10 text-accent' : 'bg-primary/5 text-primary'}`}>
+                                                        <Plane className="w-6 h-6 sm:w-8 sm:h-8" aria-hidden="true" />
                                                     </div>
-                                                    <div>
-                                                        <div className="text-2xl font-bold text-primary">
-                                                            {firstFlight.departure_time.split('T')[1].slice(0, 5)}
+                                                    <div className="flex items-center justify-between w-full sm:w-auto gap-4 sm:gap-8">
+                                                        <div className="text-center sm:text-left">
+                                                            <div className="text-xl sm:text-2xl font-bold text-primary">
+                                                                {firstFlight.departure_time.split('T')[1].slice(0, 5)}
+                                                            </div>
+                                                            <div className="text-sm text-secondary">{firstFlight.origin.code}</div>
                                                         </div>
-                                                        <div className="text-sm text-secondary">{firstFlight.origin.code}</div>
-                                                    </div>
-                                                    <div className="flex flex-col items-center px-4">
-                                                        <span className="text-xs text-secondary/60">{isDirect ? 'Non-stop' : '1 Stop'}</span>
-                                                        <div className="w-24 h-px bg-secondary/20 my-2 relative">
-                                                            <div className="absolute -right-1 -top-1 w-2 h-2 border-t-2 border-r-2 border-secondary/30 rotate-45" aria-hidden="true" />
-                                                            {!isDirect && (
-                                                                <div
-                                                                    className="absolute left-1/2 -top-1 w-2 h-2 bg-secondary/30 rounded-full -translate-x-1/2"
-                                                                    title={`Via ${firstFlight.destination.code}`}
-                                                                    aria-label={`Connecting via ${firstFlight.destination.code}`}
-                                                                />
-                                                            )}
+
+                                                        <div className="flex flex-col items-center px-2 sm:px-4">
+                                                            <span className="text-[10px] sm:text-xs text-secondary/60">{isDirect ? 'Non-stop' : '1 Stop'}</span>
+                                                            <div className="w-16 sm:w-24 h-px bg-secondary/20 my-2 relative">
+                                                                <div className="absolute -right-1 -top-1 w-2 h-2 border-t-2 border-r-2 border-secondary/30 rotate-45" aria-hidden="true" />
+                                                                {!isDirect && (
+                                                                    <div
+                                                                        className="absolute left-1/2 -top-1 w-2 h-2 bg-secondary/30 rounded-full -translate-x-1/2"
+                                                                        title={`Via ${firstFlight.destination.code}`}
+                                                                        aria-label={`Connecting via ${firstFlight.destination.code}`}
+                                                                    />
+                                                                )}
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div>
-                                                        <div className="text-2xl font-bold text-primary">
-                                                            {lastFlight.arrival_time.split('T')[1].slice(0, 5)}
+
+                                                        <div className="text-center sm:text-left">
+                                                            <div className="text-xl sm:text-2xl font-bold text-primary">
+                                                                {lastFlight.arrival_time.split('T')[1].slice(0, 5)}
+                                                            </div>
+                                                            <div className="text-sm text-secondary">{lastFlight.destination.code}</div>
                                                         </div>
-                                                        <div className="text-sm text-secondary">{lastFlight.destination.code}</div>
                                                     </div>
                                                 </div>
-                                                <div className="text-right">
-                                                    <div className="text-2xl font-bold text-primary mb-1">₹{itinerary.total_price}</div>
-                                                    {isSelected && (
-                                                        <div className="text-xs font-bold text-accent uppercase tracking-wider">
-                                                            Selected
-                                                        </div>
-                                                    )}
+                                                <div className="flex items-center justify-between md:block w-full md:w-auto border-t md:border-t-0 border-dashed border-secondary/20 pt-3 md:pt-0">
+                                                    <div className="md:hidden text-sm text-secondary">Price per person</div>
+                                                    <div className="text-right">
+                                                        <div className="text-xl sm:text-2xl font-bold text-primary mb-1">₹{itinerary.total_price}</div>
+                                                        {isSelected && (
+                                                            <div className="text-xs font-bold text-accent uppercase tracking-wider">
+                                                                Selected
+                                                            </div>
+                                                        )}
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
