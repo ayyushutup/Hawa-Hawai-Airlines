@@ -216,7 +216,12 @@ def seed_data():
             print("Generating mock bookings...")
             from app.models.booking import Booking
             from faker import Faker
+            import string
             fake = Faker()
+            
+            def generate_booking_ref():
+                """Generate a unique booking reference like HH123ABC"""
+                return 'HH' + ''.join(random.choices(string.ascii_uppercase + string.digits, k=6))
             
             bookings = []
             
@@ -230,12 +235,13 @@ def seed_data():
                 
                 for flight in flights_sample:
                     # Create a few bookings per flight
-                    num_bookings = random.randint(1, 10)
+                    num_bookings = random.randint(1, 5)
                     for _ in range(num_bookings):
                         is_bot = random.random() < 0.3 # 30% bot bookings
                         booking_date = flight.departure_time - timedelta(days=random.randint(1, 30))
                         
                         booking = Booking(
+                            booking_reference=generate_booking_ref(),
                             flight_id=flight.id, 
                             user_id=None, 
                             passenger_name=fake.name(),
@@ -257,7 +263,9 @@ def seed_data():
                 print("No flights generated, skipping booking generation.")
                 
         except Exception as e:
+            import traceback
             print(f"Error generating mock bookings: {e}")
+            traceback.print_exc()
             # Don't fail the whole deployment, just log it
             pass
 
