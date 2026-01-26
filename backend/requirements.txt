@@ -1,0 +1,14 @@
+Flask
+Flask-SQLAlchemy
+Flask-CORS
+Flask-Migrate
+python-dotenv
+marshmallow-sqlalchemy
+flask-jwt-extended
+werkzeug
+Faker
+Flask-Limiter
+pytest-cov
+gunicorn
+psycopg2-binary
+redis
