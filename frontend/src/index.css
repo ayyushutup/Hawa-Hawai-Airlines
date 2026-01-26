@@ -1,0 +1,156 @@
+@import "tailwindcss";
+
+@theme {
+  /* Primary Color Palette: Purple, Gold, White */
+  --color-primary: #2E004B;
+  /* Royal Purple */
+  --color-secondary: #D4AF37;
+  /* Rich Gold */
+  --color-accent: #D4AF37;
+  /* Rich Gold (same as secondary for consistency) */
+
+  /* Light theme neutrals - warm whites/creams */
+  --color-cream: #FFFEF5;
+  --color-cream-dark: #F5F3E8;
+}
+
+@layer base {
+  body {
+    @apply antialiased;
+    color: var(--color-primary);
+    background-color: #FFFFFF;
+  }
+
+  /* Dark mode base styles - deep purple instead of slate */
+  .dark body,
+  .dark {
+    color: #FFFEF5;
+    background-color: #1A0030;
+    /* Darker purple */
+  }
+}
+
+/* Dark mode component overrides - using deep purples */
+.dark .bg-white {
+  background-color: #2E004B;
+  /* Primary purple */
+}
+
+.dark .bg-gray-50,
+.dark .bg-stone-50,
+.dark .bg-slate-50 {
+  background-color: #1A0030;
+  /* Deep purple */
+}
+
+.dark .bg-slate-800 {
+  background-color: #2E004B;
+}
+
+.dark .bg-slate-900 {
+  background-color: #1A0030;
+}
+
+.dark .text-slate-900,
+.dark .text-primary,
+.dark .text-gray-900 {
+  color: #FFFEF5;
+}
+
+.dark .text-slate-700,
+.dark .text-gray-700 {
+  color: #E8D5B5;
+  /* Light gold tint */
+}
+
+.dark .text-slate-600,
+.dark .text-gray-600 {
+  color: #D4AF37;
+  /* Gold */
+}
+
+.dark .text-slate-500,
+.dark .text-gray-500 {
+  color: #C9A227;
+}
+
+.dark .text-slate-400,
+.dark .text-gray-400 {
+  color: #B8922D;
+}
+
+.dark .text-gray-300 {
+  color: #E8D5B5;
+}
+
+.dark .border-secondary\/10,
+.dark .border-secondary\/20,
+.dark .border-gray-100,
+.dark .border-gray-200,
+.dark .border-slate-200,
+.dark .border-slate-700 {
+  border-color: rgba(212, 175, 55, 0.3);
+  /* Gold with transparency */
+}
+
+.dark .shadow-sm,
+.dark .shadow-md,
+.dark .shadow-lg {
+  box-shadow: 0 4px 20px rgba(46, 0, 75, 0.5);
+}
+
+/* Dark mode for cards and inputs */
+.dark input,
+.dark select,
+.dark textarea {
+  background-color: #3D0066;
+  border-color: rgba(212, 175, 55, 0.4);
+  color: #FFFEF5;
+}
+
+.dark input::placeholder {
+  color: rgba(212, 175, 55, 0.6);
+}
+
+/* Navbar specific dark mode */
+.dark .bg-primary {
+  background-color: #1A0030;
+}
+
+/* Gold accents for interactive elements */
+.dark .hover\:bg-white\/5:hover {
+  background-color: rgba(212, 175, 55, 0.1);
+}
+
+/* Override gray backgrounds with purple tints */
+.dark .bg-gray-100 {
+  background-color: rgba(212, 175, 55, 0.15);
+}
+
+.dark .bg-slate-700 {
+  background-color: #3D0066;
+}
+
+/* Button and link gold hover states */
+.dark .hover\:text-secondary:hover {
+  color: #D4AF37 !important;
+}
+
+/* Scrollbar styling for dark mode */
+.dark ::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.dark ::-webkit-scrollbar-track {
+  background: #1A0030;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: #D4AF37;
+  border-radius: 4px;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #C9A227;
+}
