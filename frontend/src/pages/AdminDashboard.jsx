@@ -25,6 +25,7 @@ const AdminDashboard = ({ embedded = false }) => {
     const [editingFlight, setEditingFlight] = useState(null);
     const [showManifest, setShowManifest] = useState(null);
     const [activeTab, setActiveTab] = useState('overview');
+    const [error, setError] = useState(null);
 
     const navigate = useNavigate();
 
@@ -50,14 +51,18 @@ const AdminDashboard = ({ embedded = false }) => {
                 return;
             }
 
-            if (statsRes.ok) setStats(await statsRes.json());
-            if (flightsRes.ok) setFlights(await flightsRes.json());
-            if (bookingsRes.ok) {
-                const data = await bookingsRes.json();
-                setRecentBookings(data.bookings || []);
-            }
+            if (!statsRes.ok) throw new Error(`Stats: ${statsRes.statusText}`);
+            if (!flightsRes.ok) throw new Error(`Flights: ${flightsRes.statusText}`);
+            if (!bookingsRes.ok) throw new Error(`Bookings: ${bookingsRes.statusText}`);
+
+            setStats(await statsRes.json());
+            setFlights(await flightsRes.json());
+            const data = await bookingsRes.json();
+            setRecentBookings(data.bookings || []);
+
         } catch (error) {
             console.error("Failed to fetch admin data", error);
+            setError(error.message);
         } finally {
             setLoading(false);
         }
@@ -143,6 +148,13 @@ const AdminDashboard = ({ embedded = false }) => {
                             Add Flight
                         </button>
                     </header>
+
+                    {error && (
+                        <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl mb-6 flex items-center gap-2">
+                            <AlertCircle className="w-5 h-5" />
+                            <span>Failed to load dashboard data: {error}</span>
+                        </div>
+                    )}
 
                     {activeTab === 'overview' ? (
                         <>
