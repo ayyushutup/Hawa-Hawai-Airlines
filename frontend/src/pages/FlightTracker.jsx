@@ -31,11 +31,13 @@ const FlightTracker = () => {
     }, []);
 
     useEffect(() => {
-        // Initial fetch
-        fetchActiveFlights();
+        // Initial fetch and polling
+        const load = () => {
+            fetchActiveFlights();
+        };
 
-        // Polling every 15 seconds as requested
-        const intervalId = setInterval(fetchActiveFlights, 15000);
+        load();
+        const intervalId = setInterval(load, 15000);
 
         return () => clearInterval(intervalId);
     }, [fetchActiveFlights]);

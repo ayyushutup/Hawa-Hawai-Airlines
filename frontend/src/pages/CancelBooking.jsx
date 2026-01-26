@@ -31,7 +31,7 @@ export default function CancelBooking() {
             } else {
                 setBooking(data);
             }
-        } catch (err) {
+        } catch {
             setError('Failed to look up booking. Please try again.');
         } finally {
             setLoading(false);
@@ -54,7 +54,7 @@ export default function CancelBooking() {
                 setCancellationResult(data);
                 setBooking(null);
             }
-        } catch (err) {
+        } catch {
             setError('Failed to cancel booking. Please try again.');
         } finally {
             setLoading(false);

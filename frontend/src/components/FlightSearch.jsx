@@ -14,9 +14,17 @@ export default function FlightSearch() {
     const [destination, setDestination] = useState('');
     const [date, setDate] = useState('');
     const [returnDate, setReturnDate] = useState('');
-    const [passengers, setPassengers] = useState(1);
-    const [flightClass, setFlightClass] = useState('economy');
-    const [recentSearches, setRecentSearches] = useState([]);
+    const [passengers] = useState(1);
+    const [flightClass] = useState('economy');
+    const [recentSearches, setRecentSearches] = useState(() => {
+        try {
+            const saved = localStorage.getItem(RECENT_SEARCHES_KEY);
+            return saved ? JSON.parse(saved) : [];
+        } catch (e) {
+            console.error('Failed to parse recent searches', e);
+            return [];
+        }
+    });
 
     const [segments, setSegments] = useState([
         { origin: '', destination: '', date: '' },
@@ -29,16 +37,6 @@ export default function FlightSearch() {
         api.fetchAirports()
             .then(setAirports)
             .catch(console.error);
-
-        // Load recent searches from localStorage
-        const saved = localStorage.getItem(RECENT_SEARCHES_KEY);
-        if (saved) {
-            try {
-                setRecentSearches(JSON.parse(saved));
-            } catch (e) {
-                console.error('Failed to parse recent searches', e);
-            }
-        }
     }, []);
 
     const saveRecentSearch = (searchData) => {
@@ -124,7 +122,7 @@ export default function FlightSearch() {
     };
 
     const inputClasses = "w-full px-4 py-4 bg-white border border-gray-300 focus:border-secondary focus:ring-1 focus:ring-secondary outline-none transition-all placeholder-gray-400 text-primary font-medium text-base h-14";
-    const inputWithIconClasses = "w-full pl-12 pr-4 py-4 bg-white border border-gray-300 focus:border-secondary focus:ring-1 focus:ring-secondary outline-none transition-all placeholder-gray-400 text-primary font-medium text-base h-14";
+
     const labelClasses = "block text-xs font-bold text-gray-400 uppercase tracking-widest mb-1.5 ml-1";
 
     return (

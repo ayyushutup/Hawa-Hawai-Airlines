@@ -1,11 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { X, AlertTriangle, ArrowRight, CheckCircle2 } from 'lucide-react';
 
 export default function CancellationModal({ booking, onClose, onConfirm, loading }) {
     const [reason, setReason] = useState('');
-    const [refundEstimate, setRefundEstimate] = useState({ amount: 0, percent: 0, fee: 0 });
-
-    useEffect(() => {
+    const refundEstimate = React.useMemo(() => {
         if (booking && booking.flight) {
             const departure = new Date(booking.flight.departure_time);
             const now = new Date();
@@ -20,12 +18,9 @@ export default function CancellationModal({ booking, onClose, onConfirm, loading
             const refund = price * (percent / 100);
             const fee = price - refund;
 
-            setRefundEstimate({
-                amount: refund,
-                percent: percent,
-                fee: fee
-            });
+            return { amount: refund, percent, fee };
         }
+        return { amount: 0, percent: 0, fee: 0 };
     }, [booking]);
 
     if (!booking) return null;

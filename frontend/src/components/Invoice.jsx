@@ -1,9 +1,14 @@
-import { useRef } from 'react';
+import { useRef, useMemo } from 'react';
 import { createPortal } from 'react-dom';
 import { Download, CheckCircle, Plane } from 'lucide-react';
 
 export default function Invoice({ booking, bookings, flight, flights, onClose }) {
     const invoiceRef = useRef();
+
+    const barcodeStrips = useMemo(() => [...Array(40)].map((_, i) => ({
+        width: (i % 3 === 0) ? '1' : '1.5',
+        opacity: 0.5 + (i % 5) * 0.1
+    })), []);
 
     const handlePrint = () => {
         window.print();
@@ -206,8 +211,10 @@ export default function Invoice({ booking, bookings, flight, flights, onClose })
                         <div className="border-t-2 border-dashed border-slate-200 pt-6 flex flex-col items-center justify-center gap-4">
                             <div className="flex items-end gap-1 h-12 opacity-40">
                                 {/* Mock Barcode visual */}
-                                {[...Array(40)].map((_, i) => (
-                                    <div key={i} className={`w-${Math.random() > 0.5 ? '1' : '1.5'} h-full bg-black`} style={{ opacity: Math.random() * 0.5 + 0.5 }}></div>
+
+
+                                {barcodeStrips.map((strip, i) => (
+                                    <div key={i} className={`w-${strip.width} h-full bg-black`} style={{ opacity: strip.opacity }}></div>
                                 ))}
                             </div>
                             <p className="text-xs text-center text-slate-400 max-w-sm">
