@@ -37,9 +37,9 @@ export default function Navbar() {
                         onClick={closeMobileMenu}
                     >
                         <img
-                            src="/assets/logo_custom.jpg"
+                            src="/assets/logo.png"
                             alt="Hawa Hawai"
-                            className="h-14 w-auto object-contain rounded-full shadow-lg border border-secondary/30"
+                            className="h-16 w-auto object-contain transition-transform hover:scale-105"
                         />
                         <span className="text-white font-semibold text-xl sm:text-2xl tracking-widest uppercase group-hover:text-secondary transition-colors" style={{ fontFamily: "'Cinzel', serif" }}>
                             Hawa Hawai
@@ -109,7 +109,7 @@ export default function Navbar() {
                                             className="text-gray-300 hover:text-white uppercase text-xs font-bold tracking-widest focus:outline-none focus:ring-2 focus:ring-secondary focus:ring-offset-2 focus:ring-offset-primary rounded"
                                             aria-current={isCurrentPath('/admin') ? 'page' : undefined}
                                         >
-                                            Admin
+                                            Admin Console
                                         </Link>
                                     )}
                                     <Link

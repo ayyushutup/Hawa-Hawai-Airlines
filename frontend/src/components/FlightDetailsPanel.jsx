@@ -27,13 +27,13 @@ const FlightDetailsPanel = ({ flight, onClose }) => {
             <div className="absolute top-20 right-4 sm:right-6 w-full max-w-sm bg-white shadow-2xl rounded-2xl border border-gray-200 overflow-hidden animate-fade-in-up z-[1001]">
                 {/* Header */}
                 <div className="bg-[#2E004B] text-white p-6 relative overflow-hidden">
-                    <div className="absolute top-0 right-0 p-4 opacity-10">
+                    <div className="absolute top-0 right-0 p-4 opacity-10 pointer-events-none">
                         <Plane className="w-24 h-24 rotate-45" />
                     </div>
 
                     <button
                         onClick={handleCloseClick}
-                        className="absolute top-4 right-4 p-2 hover:bg-white/20 rounded-full transition-colors z-10"
+                        className="absolute top-4 right-4 p-2 hover:bg-white/20 rounded-full transition-colors z-50 pointer-events-auto"
                         aria-label="Close flight details"
                     >
                         <X className="w-5 h-5" />

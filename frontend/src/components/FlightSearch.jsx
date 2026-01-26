@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { api } from '../services/api';
 import { Plane, Calendar, MapPin, Search, Plus, Trash2, ArrowRightLeft, ArrowRight, Clock, X } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import CustomSelect from './CustomSelect';
 
 const RECENT_SEARCHES_KEY = 'hawa_hawai_recent_searches';
 const MAX_RECENT_SEARCHES = 5;
@@ -141,34 +142,36 @@ export default function FlightSearch() {
 
                         {/* Origin */}
                         <div className="sm:col-span-1 lg:col-span-3">
-                            <label className={labelClasses}>From</label>
-                            <select
-                                className={inputClasses}
+                            <CustomSelect
+                                label="From"
+                                placeholder="Select Origin"
                                 value={origin}
-                                onChange={(e) => setOrigin(e.target.value)}
-                                required
-                            >
-                                <option value="">Select Origin</option>
-                                {airports.map(a => (
-                                    <option key={a.code} value={a.code}>{a.city} ({a.code})</option>
-                                ))}
-                            </select>
+                                onChange={setOrigin}
+                                options={airports.map(a => ({
+                                    value: a.code,
+                                    label: a.city,
+                                    subLabel: `${a.name} (${a.code})`
+                                }))}
+                                icon={MapPin}
+                            />
                         </div>
 
                         {/* Destination */}
                         <div className="sm:col-span-1 lg:col-span-3">
-                            <label className={labelClasses}>To</label>
-                            <select
-                                className={inputClasses}
+                            <CustomSelect
+                                label="To"
+                                placeholder="Select Destination"
                                 value={destination}
-                                onChange={(e) => setDestination(e.target.value)}
-                                required
-                            >
-                                <option value="">Select Destination</option>
-                                {airports.filter(a => a.code !== origin).map(a => (
-                                    <option key={a.code} value={a.code}>{a.city} ({a.code})</option>
-                                ))}
-                            </select>
+                                onChange={setDestination}
+                                options={airports
+                                    .filter(a => a.code !== origin)
+                                    .map(a => ({
+                                        value: a.code,
+                                        label: a.city,
+                                        subLabel: `${a.name} (${a.code})`
+                                    }))}
+                                icon={MapPin}
+                            />
                         </div>
 
                         {/* Dates */}

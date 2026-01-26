@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
     LayoutDashboard, Plane, Users, Plus, Search,
     MoreVertical, Edit, Trash2, FileText, AlertCircle, CheckCircle,
@@ -25,9 +26,16 @@ const AdminDashboard = ({ embedded = false }) => {
     const [showManifest, setShowManifest] = useState(null);
     const [activeTab, setActiveTab] = useState('overview');
 
+    const navigate = useNavigate();
+
     const fetchData = async () => {
         try {
             const token = JSON.parse(localStorage.getItem('user'))?.access_token;
+            if (!token) {
+                navigate('/login');
+                return;
+            }
+
             const headers = { 'Authorization': `Bearer ${token}` };
 
             const [statsRes, flightsRes, bookingsRes] = await Promise.all([
@@ -35,6 +43,12 @@ const AdminDashboard = ({ embedded = false }) => {
                 fetch('/api/admin/flights', { headers }),
                 fetch('/api/admin/bookings/recent', { headers })
             ]);
+
+            if (statsRes.status === 401 || flightsRes.status === 401) {
+                localStorage.removeItem('user');
+                navigate('/login');
+                return;
+            }
 
             if (statsRes.ok) setStats(await statsRes.json());
             if (flightsRes.ok) setFlights(await flightsRes.json());

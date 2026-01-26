@@ -3,6 +3,7 @@ import FlightMap from '../components/FlightMap';
 import { Skeleton } from '../components/Skeleton';
 import ErrorBanner from '../components/ErrorBanner';
 import FlightDetailsPanel from '../components/FlightDetailsPanel';
+import CheckStatusModal from '../components/CheckStatusModal';
 import { api, ApiError } from '../services/api';
 
 const FlightTracker = () => {
@@ -11,6 +12,7 @@ const FlightTracker = () => {
     const [error, setError] = useState(null);
     const [showMyFlightsOnly, setShowMyFlightsOnly] = useState(false);
     const [selectedFlightId, setSelectedFlightId] = useState(null);
+    const [showStatusModal, setShowStatusModal] = useState(false);
 
     const fetchActiveFlights = useCallback(async () => {
         try {
@@ -62,6 +64,14 @@ const FlightTracker = () => {
                     <p className="text-sm text-slate-500">Real-time air traffic monitoring</p>
                 </div>
                 <div className="flex gap-4 items-center" role="group" aria-label="Flight statistics">
+                    {/* Check Status Button */}
+                    <button
+                        onClick={() => setShowStatusModal(true)}
+                        className="px-4 py-2 bg-white text-[#2E004B] border border-[#2E004B] rounded-lg text-sm font-bold hover:bg-slate-50 transition-colors"
+                    >
+                        Check Booking Status
+                    </button>
+
                     {/* Filter Toggle */}
                     <button
                         onClick={() => setShowMyFlightsOnly(!showMyFlightsOnly)}
@@ -117,6 +127,11 @@ const FlightTracker = () => {
                     flight={selectedFlight}
                     onClose={() => setSelectedFlightId(null)}
                 />
+
+                {/* Status Check Modal */}
+                {showStatusModal && (
+                    <CheckStatusModal onClose={() => setShowStatusModal(false)} />
+                )}
 
                 {loading ? (
                     <div

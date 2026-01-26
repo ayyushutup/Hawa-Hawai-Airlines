@@ -528,11 +528,36 @@ export default function BookingModal({ flight, onClose }) {
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
                                     <label className="text-sm font-medium text-secondary">Expiry</label>
-                                    <input value={expiryDate} onChange={(e) => setExpiryDate(e.target.value)} placeholder="MM/YY" className="w-full px-4 py-3 border border-gray-200 rounded-xl outline-none" />
+                                    <input
+                                        value={expiryDate}
+                                        onChange={(e) => {
+                                            // Strictly MM / YY format
+                                            let val = e.target.value.replace(/\D/g, ''); // Remove non-digit
+                                            if (val.length >= 2) {
+                                                // MM / YY
+                                                val = val.slice(0, 2) + ' / ' + val.slice(2, 4);
+                                            }
+                                            setExpiryDate(val);
+                                        }}
+                                        maxLength={7}
+                                        placeholder="MM / YY"
+                                        className="w-full px-4 py-3 border border-gray-200 rounded-xl outline-none"
+                                    />
                                 </div>
                                 <div>
                                     <label className="text-sm font-medium text-secondary">CVV</label>
-                                    <input type="password" value={cvv} onChange={(e) => setCvv(e.target.value)} placeholder="123" className="w-full px-4 py-3 border border-gray-200 rounded-xl outline-none" />
+                                    <input
+                                        type="password"
+                                        value={cvv}
+                                        onChange={(e) => {
+                                            // Strictly 3 digits
+                                            const val = e.target.value.replace(/\D/g, '').slice(0, 3);
+                                            setCvv(val);
+                                        }}
+                                        maxLength={3}
+                                        placeholder="123"
+                                        className="w-full px-4 py-3 border border-gray-200 rounded-xl outline-none"
+                                    />
                                 </div>
                             </div>
                             <div>

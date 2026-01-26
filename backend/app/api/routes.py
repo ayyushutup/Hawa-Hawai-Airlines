@@ -185,7 +185,22 @@ def get_booking_by_reference(reference):
     result = booking.to_dict()
     if booking.flight:
         result['flight'] = booking.flight.to_dict()
-    
+        
+        # Simulate delay reason if applicable
+        if booking.flight.status in ['Delayed', 'Cancelled']:
+            import zlib
+            reasons = [
+                "Severe Weather Conditions",
+                "Air Traffic Control Restrictions",
+                "Technical Maintenance Required",
+                "Crew Scheduling Issue",
+                "Late Arrival of Inbound Aircraft",
+                "Airport Operational Restrictions"
+            ]
+            # Deterministic selection based on flight ID
+            reason_idx = zlib.adler32(str(booking.flight.id).encode()) % len(reasons)
+            result['flight']['status_reason'] = reasons[reason_idx]
+            
     return jsonify(result), 200
 
 

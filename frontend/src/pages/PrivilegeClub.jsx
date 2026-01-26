@@ -6,7 +6,7 @@ export default function PrivilegeClub() {
             {/* Hero */}
             <div className="bg-primary text-white py-24 px-6 relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-1/2 h-full opacity-10">
-                    <img src="/logo.png" className="w-full h-full object-contain transform translate-x-1/3" />
+                    <img src="/assets/logo.png" className="w-full h-full object-contain transform translate-x-1/3" />
                 </div>
                 <div className="max-w-7xl mx-auto relative z-10">
                     <span className="text-secondary font-bold tracking-widest uppercase mb-4 block">Loyalty Program</span>

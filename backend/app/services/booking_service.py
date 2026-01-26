@@ -5,6 +5,7 @@ from typing import Dict, Any, Optional, List
 from app import db
 from app.models.booking import Booking
 from app.models.flight import Flight
+from app.services.pricing_service import PricingService
 import random
 import string
 
@@ -17,67 +18,6 @@ class BookingService:
         """Generate a unique 6-character booking reference."""
         return ''.join(random.choices(string.ascii_uppercase + string.digits, k=6))
 
-    @staticmethod
-    def calculate_pricing_breakdown(
-        flight_price: float,
-        seat_class: str,
-        meal_price: float = 0.0,
-        baggage_kg: int = 0,
-        has_insurance: bool = False,
-        has_priority: bool = False
-    ) -> Dict[str, float]:
-        """
-        Calculate the complete price breakdown for a booking.
-        
-        Args:
-            flight_price: Base price of the flight
-            seat_class: Class of seat (Economy, Business, First Class)
-            meal_price: Price of selected meal
-            baggage_kg: Extra baggage weight in kg
-            has_insurance: Whether travel insurance is selected
-            has_priority: Whether priority boarding is selected
-            
-        Returns:
-            Dictionary with price breakdown including base_seat_price,
-            meal_price, extras_price, taxes, and total_price
-        """
-        # Calculate price based on class
-        multiplier = 1.0
-        if seat_class == 'Business':
-            multiplier = 1.5
-        elif seat_class == 'First Class':
-            multiplier = 2.5
-            
-        base_seat_price = flight_price * multiplier
-        
-        # Calculate Extras Price
-        extras_price = 0.0
-        
-        # Baggage Tiers
-        if baggage_kg == 20:
-            extras_price += 20.0
-        elif baggage_kg == 30:
-            extras_price += 35.0
-        elif baggage_kg == 40:
-            extras_price += 60.0
-            
-        if has_insurance:
-            extras_price += 15.0
-            
-        if has_priority:
-            extras_price += 10.0
-        
-        subtotal = base_seat_price + float(meal_price) + extras_price
-        taxes = subtotal * 0.18
-        total_price = subtotal + taxes
-        
-        return {
-            "base_seat_price": base_seat_price,
-            "meal_price": float(meal_price),
-            "extras_price": extras_price,
-            "taxes": taxes,
-            "total_price": total_price
-        }
 
     @staticmethod
     def create_booking(
@@ -136,16 +76,18 @@ class BookingService:
             raise ValueError("Flight is fully booked")
 
         # Calculate Price using the centralized logic
-        pricing = BookingService.calculate_pricing_breakdown(
-            flight_price=flight.price,
+        pricing = PricingService.calculate_booking_breakdown(
+            flight=flight,
             seat_class=seat_class,
             meal_price=meal_price,
             baggage_kg=baggage_kg,
             has_insurance=has_insurance,
-            has_priority=has_priority
+            has_priority=has_priority,
+            promo_code=promo_code
         )
         total_price = pricing['total_price']
-        extras_price = pricing['extras_price']
+        extras_price = pricing['extras_price_per_person']
+        discount_amount = pricing['discount_amount']
 
         # Generate Reference
         reference = BookingService.generate_reference()
@@ -183,7 +125,8 @@ class BookingService:
             has_insurance=has_insurance,
             has_priority=has_priority,
             extras_price=extras_price,
-            promo_code=promo_code
+            promo_code=promo_code,
+            discount_amount=discount_amount
         )
 
         db.session.add(booking)
