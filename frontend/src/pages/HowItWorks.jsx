@@ -5,7 +5,7 @@ export default function HowItWorks() {
         <div className="pt-20 bg-gray-50 min-h-screen">
             {/* Hero */}
             <div className="bg-primary text-white py-24 px-6 relative overflow-hidden">
-                <div className="absolute inset-0 bg-[url('/assets/grid.svg')] opacity-10"></div>
+                <div className="absolute inset-0 bg-primary opacity-10"></div>
                 <div className="max-w-7xl mx-auto relative z-10 text-center">
                     <span className="text-secondary font-bold tracking-widest uppercase mb-4 block animate-fade-in-up">Behind the Scenes</span>
                     <h1 className="text-5xl md:text-7xl font-display font-bold mb-6 animate-fade-in-up delay-100">Building Hawa Hawai</h1>
