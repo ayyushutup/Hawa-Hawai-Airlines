@@ -211,7 +211,49 @@ def seed_data():
         db.session.add_all(flights)
         db.session.commit()
         
-        print(f"Seeding complete! Added {len(flights)} flights.")
+        # Add Mock Bookings
+        print("Generating mock bookings...")
+        from app.models.booking import Booking
+        from faker import Faker
+        fake = Faker()
+        
+        bookings = []
+        # Get a sample of flights (e.g., 20% of flights)
+        flights_sample = random.sample(flights, max(1, len(flights) // 5))
+        
+        for flight in flights_sample:
+            # Create a few bookings per flight
+            num_bookings = random.randint(1, 10)
+            for _ in range(num_bookings):
+                is_bot = random.random() < 0.3 # 30% bot bookings
+                booking_date = flight.departure_time - timedelta(days=random.randint(1, 30))
+                
+                booking = Booking(
+                    flight_id=flight.id, # Note: flight.id might not be set until commit if we re-fetch, but using objects is safe in session
+                    user_id=None, # Anonymous or populate if needed, but None is fine for guest
+                    passenger_name=fake.name(),
+                    passenger_email=fake.email(),
+                    seat_number=f"{random.randint(1, 30)}{random.choice(['A', 'B', 'C', 'D', 'E', 'F'])}",
+                    seat_class=random.choice(['Economy', 'Business', 'First']),
+                    meal_preference=random.choice(['Veg', 'Non-Veg', 'Vegan', 'None']),
+                    booking_date=booking_date,
+                    status='Confirmed',
+                    price_paid=flight.price, # Simplified
+                    is_bot=is_bot
+                )
+                bookings.append(booking)
+        
+        # We need flight IDs first, so we might need to commit flights first if not already (they are added but auto-increment IDs might strictly require commit or flush)
+        # However, SQLAlchemy objects usually track relationships. But Booking uses flight_id FK.
+        # Safest is to rely on the fact we did db.session.commit() for flights earlier (line 212 in original, but we are appending).
+        # Wait, I noticed flight.id usage. The flights list items won't have IDs until flushed/committed.
+        # The original code has db.session.commit() at line 212.
+        # So I will place this AFTER that commit.
+        
+        db.session.add_all(bookings)
+        db.session.commit()
+        
+        print(f"Seeding complete! Added {len(flights)} flights and {len(bookings)} bookings.")
 
 if __name__ == '__main__':
     seed_data()
