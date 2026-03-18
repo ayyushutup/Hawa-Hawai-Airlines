@@ -21,7 +21,11 @@ class Config:
         JWT_SECRET_KEY = 'dev-only-jwt-key-do-not-use-in-production'
     
     # Database
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or 'sqlite:///hawa_hawai.db'
+    db_url = os.environ.get('DATABASE_URL')
+    if db_url and db_url.startswith("postgres://"):
+        db_url = db_url.replace("postgres://", "postgresql://", 1)
+        
+    SQLALCHEMY_DATABASE_URI = db_url or 'sqlite:///hawa_hawai.db'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     
     # CORS - restrict to configured origins
